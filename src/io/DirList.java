@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class DirList {
     public static void main(String[] args) {
-        File path = new File(".");
+        File path = new File("src/io");
         String[] list;
         if (args.length == 0) {
             list = path.list();

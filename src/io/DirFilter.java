@@ -10,18 +10,19 @@ import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 
 public class DirFilter implements FilenameFilter {
-    /**
-     * 用于正则表达式过滤
-     */
-    private Pattern pattern;
+    //该接口的唯一方法
+    private String regex;
 
     public DirFilter(String regex) {
-        pattern = Pattern.compile(regex);
+        this.regex = regex;
     }
 
-    //该接口的唯一方法
     @Override
     public boolean accept(File dir, String name) {
-        return pattern.matcher(name).matches();
+        if (name.endsWith(regex)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
