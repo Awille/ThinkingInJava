@@ -1,9 +1,7 @@
 package io;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-
 public class DirList {
     public static void main(String[] args) {
         File path = new File("src/io");
