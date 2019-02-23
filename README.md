@@ -68,6 +68,44 @@ LineNumberInputStream(跟踪输入流当中的行号，set或者get) PushbackInp
     }
 ```
 
+这个输出字符串 主要是对两个对象进行操作，一个是BufferedWriter textOut， 一个是OutputStreamWriter charOut, 
+平时我们调用的System.out中的out对象，是一个PrintStream对象， PrintStream我们知道了是继承FilterStream的，
+也是个装饰类，具体也是对FilterOutputStream中持有的outputStream对象进行操作，具体怎么实现的，我们看一下out的
+
+首先在System当中有out的初始化：
+```$xslt
+FileOutputStream fdOut = new FileOutputStream(FileDescriptor.out);
+setOut0(newPrintStream(fdOut, props.getProperty("sun.stdout.encoding")));
+```
+其中FileDescriptor.out对象是这样的：
+`public static final FileDescriptor out = standardStream(1);`
+其中：
+```$xslt
+    private static FileDescriptor standardStream(int fd) {
+        FileDescriptor desc = new FileDescriptor();
+        desc.handle = set(fd);
+        return desc;
+    }
+```
+可以看到outputStream描述符是1，这里是作为out的初始化
+
+看到这里就差不多了，我们可以自己写一个System的out实现简单的输出：
+```$xslt
+FileOutputStream fileOutputStream = new FileOutputStream(FileDescriptor.out);
+Properties myPro = new Properties();
+PrintStream myOut = new PrintStream(new BufferedOutputStream(fileOutputStream, 128), true);;
+myOut.println("Test");
+
+//假如我关掉的话，后面就再也不会输出了
+try {
+    fileOutputStream.close();
+    myOut.close();
+} catch (IOException e) {
+    e.printStackTrace();
+}
+System.out.println("这里是不会输出的");
+```
+
 
 
 

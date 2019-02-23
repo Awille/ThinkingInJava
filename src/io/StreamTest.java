@@ -1,6 +1,7 @@
 package io;
 
 import java.io.*;
+import java.util.Properties;
 
 public class StreamTest {
     public static void main(String[] args) {
@@ -45,5 +46,11 @@ public class StreamTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FileOutputStream fileOutputStream = new FileOutputStream(FileDescriptor.out);
+        Properties myPro = new Properties();
+        PrintStream myOut = myOut = new PrintStream(new BufferedOutputStream(fileOutputStream, 128), true);;
+        myOut.println("Test Test");
+
     }
 }
