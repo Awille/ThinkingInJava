@@ -45,6 +45,31 @@ FilterOuputStream
 LineNumberInputStream(跟踪输入流当中的行号，set或者get) PushbackInputStream
 以上列举的装饰器类都是在已经存在的流之上进行操作的
 
+##### 4.4 我们输入中使用的 System.out.print操作的实现
+所有的方法实际上是通过PrintStream当中的write方式实现的，而这个write方式实际上是对一个outStream对象进行修改
+```$xslt
+    private void write(String s) {
+        try {
+            synchronized (this) {
+                ensureOpen(); //确认outputStream对象不为null
+                textOut.write(s);
+                textOut.flushBuffer();
+                charOut.flushBuffer();
+                if (autoFlush && (s.indexOf('\n') >= 0))
+                    out.flush();
+            }
+        }
+        catch (InterruptedIOException x) {
+            Thread.currentThread().interrupt();
+        }
+        catch (IOException x) {
+            trouble = true;
+        }
+    }
+```
+
+
+
 
 
 

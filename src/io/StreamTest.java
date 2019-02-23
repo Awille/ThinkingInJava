@@ -39,7 +39,7 @@ public class StreamTest {
         }
 
         String out = new String(outputStream.toByteArray());
-        System.out.println(out);
+        System.out.print(out);
         try {
             outputStream.close();
         } catch (IOException e) {
